@@ -8,10 +8,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.jquery.min.js"></script>
 	
 	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.min.css">
 </head>
 <body>
 	<div class="container">
@@ -31,39 +33,73 @@
 		</footer>
 	</body>
 	<script type="text/javascript">
-	$('.dropdown-toggle').dropdown()
 		var questions = ["This is a test", "Test 2", "Test 3"]
-		var choices = ["1 (Strongly Disagree)", "2", "3", "4", "5 (Strongly Agree)"]
+		var choices = ["","1 (Strongly Disagree)", "2", "3", "4", "5 (Strongly Agree)"]
 		questionSetup();
 		function questionSetup() {
+			var target = $("#surveyArea");
 			for (var i = 1; i < questions.length + 1; i++) {
-				var target = $("#surveyArea");
-				var q = $("<div>");
-				q.addClass("dropdown");
-				q.attr("id", "q" + i + "Area");
-				var drop = $("<button>");
-				drop.addClass("btn btn-secondary dropdown-toggle");
-				drop.attr("type", "button");
-				drop.attr("id","q" + i + "Drop");
-				drop.attr("data-toggle", "dropdown");
-				drop.attr("aria-haspopup", "true");
-				drop.attr("aria-expanded", "false")
-				drop.text("Select an Option")
-				var menu = $("<div>");
-				menu.attr("aria-labelledby", "q" + i + "Drop");
-				menu.addClass("dropdown-menu")
-				var options = $("<ul>");
-				options.attr("id", "q" + i + "options")
+				var drop = $("<select>");
+				drop.addClass("chosen-select");
+				drop.attr("data-placeholder", "");
+				drop.attr("id","val" + i);
 				for (var x = 0; x < choices.length; x++) {
-					var val = x + 1;
-					options.append("<li class='dropdown-item' id='choice" + val + "'>" + choices[x] + "</li>");
+					drop.append("<option value='"+ x + "'>" + choices[x] + "</option>");
 				}
-				menu.append(options);
-				q.append("<h4>" + questions[i-1] + "</h4>")
-				q.append(drop);
-				q.append(menu);
-				target.append(q);
+				target.append("<h4>" + questions[i-1] + "</h4>");
+				target.append(drop);
 			}
+			target.append('<button type="button" class="btn btn-primary submit">Submit</button>')
 		}
+
+
+		$(".submit").on("click", function(evt){
+			evt.preventDefault();
+			var complete = 0;
+			//UPDATE FOR CONDITION FOR THE FULL LENGTH OF THE CHOICES ARRAY
+			for (var i = 1; i < 3 + 1; i++){
+				if($("#val" + i).val() != "0") {
+					console.log($("#val" + i).val())
+					complete += 1;
+					console.log(complete)
+				}
+				else {
+					complete = 0;
+				}
+			}
+			if (complete === 10){
+				postData();
+			}
+			else {
+				alert("Pleae fill out every question");
+			}
+		})
+
+		function postData() {
+
+			var request = {
+				id: 0,
+				name: $("#name").val().trim(),
+				photo: $("#photo").val().trim(),
+				scores: []
+			}
+
+			for (var i = 0; i < choices.length; i++) {
+				var index = i + 1
+				request.scores.push($("#val" + index).val())
+			}
+
+
+			$.post("/api/friends", request, function(data){
+				if (data) {
+					alert("success");
+				}
+				else {
+					alert("There was an error with your submission")
+				}
+			})
+		}
+
+		$(".chosen-select").chosen()
 	</script>
 	</html>
