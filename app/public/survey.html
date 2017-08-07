@@ -1,0 +1,69 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title></title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container">
+		<div id="surveyArea">
+			<h2>About You</h2>
+			<h4>Name</h4>
+			<input type="text" name id="name" class="form-control" required placeholder="First and Last Name">
+			<h4>Link to Photo</h4>
+			<input type="text" name id="photo" class="form-control" required placeholder="http://image.com/file.jpeg">
+		</div>
+		<footer class="footer">
+			<div class="container">
+				<p>
+					<a href="/api/friends">API Friends Link</a>   |   <a href="https://github.com/CalebBuxton/friendfinder">GitHub Repo</a>
+				</p>
+			</div>
+		</footer>
+	</body>
+	<script type="text/javascript">
+	$('.dropdown-toggle').dropdown()
+		var questions = ["This is a test", "Test 2", "Test 3"]
+		var choices = ["1 (Strongly Disagree)", "2", "3", "4", "5 (Strongly Agree)"]
+		questionSetup();
+		function questionSetup() {
+			for (var i = 1; i < questions.length + 1; i++) {
+				var target = $("#surveyArea");
+				var q = $("<div>");
+				q.addClass("dropdown");
+				q.attr("id", "q" + i + "Area");
+				var drop = $("<button>");
+				drop.addClass("btn btn-secondary dropdown-toggle");
+				drop.attr("type", "button");
+				drop.attr("id","q" + i + "Drop");
+				drop.attr("data-toggle", "dropdown");
+				drop.attr("aria-haspopup", "true");
+				drop.attr("aria-expanded", "false")
+				drop.text("Select an Option")
+				var menu = $("<div>");
+				menu.attr("aria-labelledby", "q" + i + "Drop");
+				menu.addClass("dropdown-menu")
+				var options = $("<ul>");
+				options.attr("id", "q" + i + "options")
+				for (var x = 0; x < choices.length; x++) {
+					var val = x + 1;
+					options.append("<li class='dropdown-item' id='choice" + val + "'>" + choices[x] + "</li>");
+				}
+				menu.append(options);
+				q.append("<h4>" + questions[i-1] + "</h4>")
+				q.append(drop);
+				q.append(menu);
+				target.append(q);
+			}
+		}
+	</script>
+	</html>
