@@ -6,7 +6,7 @@
 	<title></title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.jquery.min.js"></script>
 	
@@ -152,7 +152,7 @@
 						}
 						$("#matchName").text(matchName);
 						$("#matchPhoto").attr("src", matchPhoto);
-						showModal();
+						$("#newFriendModal").modal('toggle');
 					}
 					else {
 						alert("There was an error with your submission")
