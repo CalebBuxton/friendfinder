@@ -9,7 +9,7 @@ var arr = [
 {
 	id: 2,
 	name: "Chuck Norris",
-	photo: "http://cdn.business2community.com/wp-content/uploads/2016/03/Vd3MJo.jpg",
+	photo: "https://cdn.business2community.com/wp-content/uploads/2016/03/Vd3MJo.jpg",
 	scores: [1,1,5,1,5,1,1,1,1,1]
 }
 ];
