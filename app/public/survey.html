@@ -85,11 +85,11 @@
 			evt.preventDefault();
 			var complete = 0;
 			//UPDATE FOR CONDITION FOR THE FULL LENGTH OF THE CHOICES ARRAY
-			for (var i = 1; i < 3 + 1; i++){
+			for (var i = 1; i < choices.length + 1; i++){
 				if($("#val" + i).val() != "0") {
 					console.log($("#val" + i).val())
 					complete += 1;
-					console.log(complete)
+					console.log("total answered " + complete)
 				}
 				else {
 					complete = 0;
