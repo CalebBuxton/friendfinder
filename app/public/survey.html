@@ -14,6 +14,12 @@
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.min.css">
+	<style type="text/css">
+		#matchPhoto {
+			max-height: 350px;
+			max-width: auto;
+		}
+	</style>
 </head>
 <body>
 	<div class="container">
@@ -31,7 +37,29 @@
 				</p>
 			</div>
 		</footer>
+
+		<div id="resultsModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h2 class="modal-title"><strong>Your New Friend!</strong></h2>
+					</div>
+					<div class="modal-body">
+						<h2 id="matchName"></h2>
+						<img id="matchPhoto" src="" alt="">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
 	</body>
+
 	<script type="text/javascript">
 		var questions = ["This is a test", "Test 2", "Test 3"]
 		var choices = ["","1 (Strongly Disagree)", "2", "3", "4", "5 (Strongly Agree)"]
@@ -49,7 +77,7 @@
 				target.append("<h4>" + questions[i-1] + "</h4>");
 				target.append(drop);
 			}
-			target.append('<button type="button" class="btn btn-primary submit">Submit</button>')
+			target.append('<br><button type="button" class="btn btn-primary submit">Submit</button>')
 		}
 
 
@@ -75,28 +103,62 @@
 			}
 		})
 
-		function postData() {
+		function findMatch() {
+			var origin = window.location.origin;
+			var id = 0;
 
-			var request = {
-				id: 0,
-				name: $("#name").val().trim(),
-				photo: $("#photo").val().trim(),
-				scores: []
-			}
-
-			for (var i = 0; i < choices.length; i++) {
-				var index = i + 1
-				request.scores.push($("#val" + index).val())
-			}
-
-
-			$.post("/api/friends", request, function(data){
-				if (data) {
-					alert("success");
+			$.ajax({
+				url: origin + "/api/friends",
+				method: "GET"
+			}).done(function(friends){
+				id = friends.length;
+				var request = {
+					id: id,
+					name: $("#name").val().trim(),
+					photo: $("#photo").val().trim(),
+					scores: []
 				}
-				else {
-					alert("There was an error with your submission")
+
+				for (var i = 0; i < choices.length; i++) {
+					var index = i + 1
+					request.scores.push($("#val" + index).val())
 				}
+
+
+				$.post("/api/friends", request, function(data){
+					if (data) {
+						alert("success");
+						var matchId = null;
+						var matchScore = 9000;
+						var matchName = "";
+						var matchPhoto = "";
+
+						for (var i = 0; i < id; i++){
+							var scores = friends[i].scores;
+							var userScores = request.scores;
+							var total = null;
+							var results =[];
+							for(var x = 0; x < scores.length; x++) {
+								results.push(Math.abs(scores[x] - userScores[x]))
+							}
+							for(var y = 0; y < results.length; y++){
+								total = total + results[y];
+							}
+							if (total < matchScore) {
+								matchId = friends[i].id;
+								matchScore = total;
+								matchName = friends[i].name
+								matchPhoto = friends[i].photo
+							}
+						}
+						$("#matchName").text(mathcName);
+						$("#matchPhoto").attr("src", matchPhoto);
+					}
+					else {
+						alert("There was an error with your submission")
+					}
+				})
+
 			})
 		}
 
