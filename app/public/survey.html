@@ -38,7 +38,7 @@
 			</div>
 		</footer>
 
-		<div id="resultsModal" class="modal fade" role="dialog">
+		<div id="newFriendModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 
 				<!-- Modal content-->
@@ -127,7 +127,6 @@
 
 				$.post("/api/friends", request, function(data){
 					if (data) {
-						alert("success");
 						var matchId = null;
 						var matchScore = 9000;
 						var matchName = "";
@@ -153,6 +152,7 @@
 						}
 						$("#matchName").text(matchName);
 						$("#matchPhoto").attr("src", matchPhoto);
+						showModal();
 					}
 					else {
 						alert("There was an error with your submission")
@@ -163,5 +163,9 @@
 		}
 
 		$(".chosen-select").chosen()
+
+		function showModal() {
+			$("#newFriendModal").focus();
+		}
 	</script>
 	</html>
