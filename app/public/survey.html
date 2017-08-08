@@ -113,7 +113,7 @@
 			}).done(function(friends){
 				id = friends.length;
 				var request = {
-					id: id,
+					id: id + 1,
 					name: $("#name").val().trim(),
 					photo: $("#photo").val().trim(),
 					scores: []
@@ -165,7 +165,7 @@
 		$(".chosen-select").chosen()
 
 		function showModal() {
-			$("#newFriendModal").focus();
+			$("#newFriendModal").modal('toggle');
 		}
 	</script>
 	</html>
