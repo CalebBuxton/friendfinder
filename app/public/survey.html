@@ -119,7 +119,7 @@
 					scores: []
 				}
 
-				for (var i = 0; i < choices.length; i++) {
+				for (var i = 0; i < questions.length; i++) {
 					var index = i + 1
 					request.scores.push($("#val" + index).val())
 				}
@@ -151,7 +151,7 @@
 								matchPhoto = friends[i].photo
 							}
 						}
-						$("#matchName").text(mathcName);
+						$("#matchName").text(matchName);
 						$("#matchPhoto").attr("src", matchPhoto);
 					}
 					else {
