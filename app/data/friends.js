@@ -14,22 +14,12 @@ var arr = [
 },
 
 {
-"id": "3",
-"name": "Caleb Buxton",
-"photo": "https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAiiAAAAJDhiYTQyMjlmLTc5YjktNGExNi04NDExLWU4ZTBkM2U0ZjA3Mg.jpg",
-"scores": [
-"2",
-"3",
-"1",
-"1",
-"4",
-"1",
-"4",
-"5",
-"3",
-"5"
-]
+id: 3,
+name: "Caleb Buxton",
+photo: "https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAiiAAAAJDhiYTQyMjlmLTc5YjktNGExNi04NDExLWU4ZTBkM2U0ZjA3Mg.jpg",
+scores: [2,3,1,1,4,1,4,5,3,5]
 }
+
 ];
 
 module.exports = arr;
